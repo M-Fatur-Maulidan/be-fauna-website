@@ -1,28 +1,33 @@
-const express = require("express");
-
+// index.js
 require("dotenv").config();
 
-// Memuat koneksi database dari konfigurasi
-const { connectDB } = require("./src/config/database");
+const express = require("express");
+const bodyParser = require("body-parser");
 
+const userRoutes = require("./src/routes/admin/admin_user_routes");
+
+const apiv1 = "/api/v1";
+
+// Inisialisasi aplikasi Express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
+app.use(apiv1 + "/users", userRoutes);
+
+// Static files for user images
+require("./src/static/index_images.js")(app);
+
+// Rute dasar untuk mengecek apakah server berjalan
 app.get("/", (req, res) => {
-  res.send("<h1>Halo Dunia dari Express! 🚀</h1>");
+  res.send("Welcome to the User Service API!");
 });
 
-// Fungsi untuk memulai aplikasi dan menghubungkan ke database
-const startApp = async () => {
-  try {
-    await connectDB();
-  } catch (error) {
-    console.error("Gagal terhubung ke database:", error);
-    process.exit(1);
-  }
-};
-
-app.listen(PORT, async () => {
-  await startApp();
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+// Menjalankan server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
