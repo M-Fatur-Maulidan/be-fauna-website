@@ -50,14 +50,6 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
     data_status: {
       type: DataTypes.INTEGER,
       defaultValue: 1, // 1 untuk aktif, 0 untuk nonaktif (soft delete)
