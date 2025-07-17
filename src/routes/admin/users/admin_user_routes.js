@@ -2,9 +2,9 @@
 const express = require("express");
 const router = express.Router();
 
-const userController = require("../../controllers/admin/api_v1_admin_user_controllers");
+const userController = require("../../../controllers/admin/users/api_v1_admin_user_controllers");
 
-const { createUploader } = require("../../utils/UploadFile");
+const { createUploader } = require("../../../utils/UploadFile");
 
 // Fungsi ini digunakan untuk mengupload file foto pengguna
 const uploadFoto = createUploader("./src/images/users/foto/", "foto");

@@ -1,9 +1,9 @@
 // services/userService.js
 
-const { sequelize } = require("../../config/database_sequlize");
-const knex = require("../../config/database_knex");
+const { sequelize } = require("../../../config/database_sequlize");
+const knex = require("../../../config/database_knex");
 
-const User = require("../../models/users/users");
+const User = require("../../../models/users/users");
 
 const bcrypt = require("bcryptjs");
 

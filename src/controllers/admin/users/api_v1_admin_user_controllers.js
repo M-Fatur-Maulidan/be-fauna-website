@@ -1,5 +1,5 @@
 // controllers/userController.js
-const userService = require("../../services/admin/admin_user_services");
+const userService = require("../../../services/admin/users/admin_user_services");
 
 /**
  * Controller untuk menangani request terkait pengguna.

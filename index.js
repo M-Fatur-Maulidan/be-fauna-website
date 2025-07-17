@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const userRoutes = require("./src/routes/admin/admin_user_routes");
+const userRoutes = require("./src/routes/admin/users/admin_user_routes");
 
 const apiv1 = "/api/v1";
 
