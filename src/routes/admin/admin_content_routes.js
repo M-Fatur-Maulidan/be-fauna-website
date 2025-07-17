@@ -2,16 +2,16 @@
 const express = require("express");
 const router = express.Router();
 
-const contentController = require("../../../src/controllers/admin/api_v1_admin_content"); // Sesuaikan path
-const { createUploader } = require("../../utils/UploadFile"); // Sesuaikan path
+const contentController = require("../../../src/controllers/admin/api_v1_admin_content_controllers");
+const { createUploader } = require("../../utils/UploadFile");
 
-// Middleware untuk mengupload file gambar konten
+// Helpers/Utils untuk mengupload file gambar konten
 // Menyimpan file ke './src/images/contents/' dengan nama field 'gambar'
 const uploadGambar = createUploader("./src/images/contents/", "gambar");
 
 /**
  * Mendefinisikan rute untuk resource 'contents'.
- * Base URL: /api/contents (misalnya)
+ * Base URL: /contents
  */
 
 // GET / -> Mendapatkan semua konten

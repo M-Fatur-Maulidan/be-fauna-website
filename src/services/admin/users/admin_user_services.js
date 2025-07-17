@@ -70,6 +70,7 @@ const userService = {
       user.email = userData.email;
       user.telepon = userData.telepon;
       user.alamat = userData.alamat;
+      user.password = userData.password;
       if (userData.foto) {
         user.foto = userData.foto;
       }

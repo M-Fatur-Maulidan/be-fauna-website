@@ -1,10 +1,8 @@
-const Sequelize = require("sequelize");
+// models/roles/role.js
+const { DataTypes, Sequelize } = require("sequelize");
+const { sequelize } = require("../../config/database_sequlize"); // Sesuaikan path jika perlu
 
-const { sequelize } = require("../../config/database_sequlize");
-
-const { DataTypes } = Sequelize;
-
-const Roles = sequelize.define(
+const Role = sequelize.define(
   "roles",
   {
     id: {
@@ -14,36 +12,29 @@ const Roles = sequelize.define(
       allowNull: false,
     },
     nama: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       unique: {
-        msg: "Nama roles ini sudah ada.",
+        msg: "Nama role sudah ada.",
       },
       validate: {
         notEmpty: {
-          msg: "Nama roles tidak boleh kosong.",
+          msg: "Nama role tidak boleh kosong.",
         },
       },
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     data_status: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 1, // 1 untuk aktif, 0 untuk nonaktif
     },
+    // created_at dan updated_at akan ditangani secara otomatis oleh Sequelize
   },
   {
     freezeTableName: true,
     timestamps: true,
+    underscored: true,
   }
 );
 
-module.exports = Roles;
+module.exports = Role;

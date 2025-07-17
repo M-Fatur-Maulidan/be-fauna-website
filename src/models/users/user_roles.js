@@ -1,27 +1,25 @@
-const Sequelize = require("sequelize");
-
+const { DataTypes } = require("sequelize");
 const { sequelize } = require("../../config/database_sequlize");
 
-const { DataTypes } = Sequelize;
+const User = require("../users/users");
+const Role = require("../users/roles");
 
 const UserRoles = sequelize.define(
   "user_roles",
   {
     user_id: {
-      // Diubah dari penggunaId
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "users",
+        model: User,
         key: "id",
       },
     },
     role_id: {
-      // Diubah dari peranId
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "roles",
+        model: Role,
         key: "id",
       },
     },

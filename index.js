@@ -5,14 +5,21 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 // Import routes
+// Auth Routes
+const authRoutes = require("./src/routes/auth_routes");
+
 // User Routes
 const userRoutes = require("./src/routes/admin/users/admin_user_routes");
+const roleRoutes = require("./src/routes/admin/users/admin_role_routes");
+const userRoleRoutes = require("./src/routes/admin/users/admin_user_role_routes");
 
 // Content Routes
 const contentRoutes = require("./src/routes/admin/admin_content_routes");
 
 // --> End Import Routes
 
+const apiv1Admin = "/api/v1/admin";
+const apiv1Web = "/api/v1/web";
 const apiv1 = "/api/v1";
 
 // Inisialisasi aplikasi Express
@@ -25,11 +32,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 
+// Route untuk Autentikasi
+app.use(apiv1 + "/auth", authRoutes);
+
 // Route untuk Users
-app.use(apiv1 + "/users", userRoutes);
+app.use(apiv1Admin + "/users", userRoutes);
+app.use(apiv1Admin + "/users", roleRoutes);
+app.use(apiv1Admin + "/users", userRoleRoutes);
 
 // Route untuk Contents
-app.use(apiv1 + "/contents", contentRoutes);
+app.use(apiv1Admin + "/contents", contentRoutes);
 
 // Static files for user images
 require("./src/static/index_images.js")(app);
