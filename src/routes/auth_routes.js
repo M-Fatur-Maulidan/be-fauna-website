@@ -12,4 +12,7 @@ const authController = require("../controllers/api_v1_auth_controller"); // Sesu
 // POST /login -> Memproses login dan mengembalikan token
 router.post("/login", authController.login);
 
+// POST /register -> Memproses registrasi pengguna baru
+router.post("/register", authController.register);
+
 module.exports = router;

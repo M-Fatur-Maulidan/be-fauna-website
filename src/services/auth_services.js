@@ -1,6 +1,7 @@
 // services/auth/authService.js
 const knex = require("../config/database_knex");
 
+const UserModel = require("../models/users/users");
 const userRoleService = require("./admin/users/admin_user_role_services");
 const RefreshToken = require("../models/refresh_tokens");
 
@@ -11,12 +12,6 @@ const jwt = require("jsonwebtoken");
  * Business Logic untuk Autentikasi.
  */
 const authService = {
-  /**
-   * Memproses login pengguna.
-   * @param {string} email - Email pengguna.
-   * @param {string} password - Password pengguna.
-   * @returns {Promise<string>} - Mengembalikan JWT jika berhasil.
-   */
   login: async (email, password) => {
     try {
       const user = await knex("users")
@@ -24,13 +19,13 @@ const authService = {
         .first();
 
       if (!user) {
-        throw new Error("Kredensial tidak valid");
+        throw new Error("Kredensial tidak valid, silakan coba lagi.");
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        throw new Error("Kredensial tidak valid");
+        throw new Error("Kredensial tidak valid, silakan coba lagi.");
       }
 
       const roles = await userRoleService.getRolesByUserId(user.id);
@@ -45,7 +40,7 @@ const authService = {
       const accessTokenPayload = {
         id: user.id,
         nama: user.nama,
-        roles: roleNames,
+        roles: roles[0].nama,
       };
 
       const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
@@ -131,6 +126,40 @@ const authService = {
       console.log("Logout attempt for a token that does not exist.");
     }
     return { message: "Logout berhasil." };
+  },
+
+  register: async (userData) => {
+    try {
+      // Validasi input
+      if (!userData.email || !userData.password || !userData.nama) {
+        throw new Error("Email, password, dan nama harus diisi.");
+      }
+
+      // Cek apakah email sudah terdaftar
+      const existingUser = await UserModel.findOne({
+        where: { email: userData.email, data_status: 1 },
+      });
+
+      if (existingUser) {
+        throw new Error("Email sudah terdaftar.");
+      }
+
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+      // Simpan user baru
+      const newUser = new UserModel({
+        email: userData.email,
+        password: hashedPassword,
+        nama: userData.nama,
+        data_status: 1, // Aktif
+      });
+
+      await newUser.save();
+
+      return { id: newUser.id, message: "Registrasi berhasil." };
+    } catch (error) {
+      throw error;
+    }
   },
 };
 
