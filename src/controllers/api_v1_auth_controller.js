@@ -38,7 +38,7 @@ const authController = {
       // Error lainnya
       res.status(500).json({
         status: "error",
-        message: "Terjadi kesalahan pada server. ",
+        message: "Terjadi kesalahan pada server. " + error.message,
         error: error.message,
       });
     }
@@ -46,7 +46,7 @@ const authController = {
 
   register: async (req, res) => {
     try {
-      const { email, password, nama } = req.body;
+      const { email, password, nama, telepon } = req.body;
 
       // Validasi input
       if (!email || !password || !nama) {
@@ -56,7 +56,12 @@ const authController = {
         });
       }
 
-      const result = await authService.register({ email, password, nama });
+      const result = await authService.register({
+        email,
+        password,
+        nama,
+        telepon,
+      });
 
       res.status(201).json({
         status: "success",
@@ -67,7 +72,7 @@ const authController = {
       });
     } catch (error) {
       // Menangani error dari service
-      if (error.message === "Email sudah terdaftar.") {
+      if (error.message == "Email sudah terdaftar.") {
         return res.status(409).json({
           status: "fail",
           message: error.message,
@@ -77,7 +82,7 @@ const authController = {
       // Error lainnya
       res.status(500).json({
         status: "error",
-        message: "Terjadi kesalahan pada server.",
+        message: error.message || "Terjadi kesalahan pada server.",
         error: error.message,
       });
     }

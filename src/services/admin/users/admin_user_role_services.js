@@ -66,11 +66,12 @@ const userRoleService = {
    * Mendapatkan semua peran dari seorang pengguna.
    */
   getRolesByUserId: async (userId) => {
-    const roles = await knex("user_roles")
+    const roles = knex("user_roles")
+      .column(["roles.id", "roles.nama"])
       .join("roles", "user_roles.role_id", "=", "roles.id")
       .where("user_roles.user_id", userId)
-      .andWhere("roles.data_status", 1)
-      .select("roles.id", "roles.nama");
+      .where("roles.data_status", 1)
+      .first();
 
     return roles;
   },
@@ -82,7 +83,7 @@ const userRoleService = {
     const users = await knex("user_roles")
       .join("users", "user_roles.user_id", "=", "users.id")
       .where("user_roles.role_id", roleId)
-      .andWhere("users.data_status", 1)
+      .where("users.data_status", 1)
       .select("users.id", "users.nama", "users.email");
 
     return users;

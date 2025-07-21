@@ -34,13 +34,13 @@ const authService = {
         id: user.id,
         nama: user.nama,
         email: user.email,
-        role_name: roles[0].nama,
+        role_name: roles != null ? roles.nama : "user",
       };
 
       const accessTokenPayload = {
         id: user.id,
         nama: user.nama,
-        roles: roles[0].nama,
+        roles: roles != null ? roles.nama : "user",
       };
 
       const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
@@ -151,6 +151,7 @@ const authService = {
         email: userData.email,
         password: hashedPassword,
         nama: userData.nama,
+        telepon: userData.telepon || null,
         data_status: 1, // Aktif
       });
 
