@@ -20,6 +20,10 @@ const contentRoutes = require("./src/routes/admin/admin_content_routes");
 // Web
 const contactRoutes = require("./src/routes/web/web_contact_routes");
 
+// Invoice Routes
+// Web
+const invoiceRoutes = require("./src/routes/web/web_invoice_routes");
+
 // --> End Import Routes
 
 const apiv1Admin = "/api/v1/admin";
@@ -49,6 +53,9 @@ app.use(apiv1Admin + "/contents", contentRoutes);
 
 // Route untuk Contacts
 app.use(apiv1Web + "/contacts", contactRoutes);
+
+// Route untuk Invoices
+app.use(apiv1Web + "/invoices", invoiceRoutes);
 
 // Static files for user images
 require("./src/static/index_images.js")(app);

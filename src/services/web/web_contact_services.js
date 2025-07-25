@@ -1,7 +1,7 @@
 // services/contents/contactServices.js
 const { sequelize } = require("../../config/database_sequlize");
 const knex = require("../../config/database_knex");
-const Content = require("../../models/contact");
+const Contact = require("../../models/contacts");
 
 /**
  * Business Logic untuk mengelola data kontak.
@@ -15,7 +15,7 @@ const contactServices = {
    */
   createContact: async (contactData) => {
     try {
-      const newContact = await Content.create(contactData);
+      const newContact = await Contact.create(contactData);
 
       return newContact;
     } catch (error) {
