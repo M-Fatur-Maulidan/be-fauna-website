@@ -16,6 +16,10 @@ const userRoleRoutes = require("./src/routes/admin/users/admin_user_role_routes"
 // Content Routes
 const contentRoutes = require("./src/routes/admin/admin_content_routes");
 
+// Contact Routes
+// Web
+const contactRoutes = require("./src/routes/web/web_contact_routes");
+
 // --> End Import Routes
 
 const apiv1Admin = "/api/v1/admin";
@@ -42,6 +46,9 @@ app.use(apiv1Admin + "/users", userRoleRoutes);
 
 // Route untuk Contents
 app.use(apiv1Admin + "/contents", contentRoutes);
+
+// Route untuk Contacts
+app.use(apiv1Web + "/contacts", contactRoutes);
 
 // Static files for user images
 require("./src/static/index_images.js")(app);
