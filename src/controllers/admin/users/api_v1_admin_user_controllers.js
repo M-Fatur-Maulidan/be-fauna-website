@@ -10,6 +10,8 @@ const userController = {
    */
   getAllUsers: async (req, res) => {
     try {
+      let index = 1;
+
       const page = parseInt(req.query.page) || 1;
       const itemPerPage = parseInt(req.query.item_per_page) || 10;
 
@@ -20,6 +22,8 @@ const userController = {
       users.forEach((user) => {
         user.foto_url_original = user.foto;
         user.foto = process.env.APP_URL + "/image-users-foto/" + user.foto;
+
+        user.no = itemPerPage * (page - 1) + index++;
       });
 
       res.status(200).json({

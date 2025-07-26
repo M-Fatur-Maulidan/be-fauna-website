@@ -87,6 +87,34 @@ const authController = {
       });
     }
   },
+  refreshToken: async (req, res) => {
+    try {
+      const { token } = req.body;
+
+      // Validasi input
+      if (!token) {
+        return res.status(400).json({
+          status: "fail",
+          message: "Refresh token harus diisi.",
+        });
+      }
+
+      const newAccessToken = await authService.refreshToken(token);
+
+      res.status(200).json({
+        status: "success",
+        message: "Token berhasil diperbarui.",
+        data: {
+          accessToken: newAccessToken.accessToken,
+        },
+      });
+    } catch (error) {
+      res.status(401).json({
+        status: "fail",
+        message: error.message || "Terjadi kesalahan pada server.",
+      });
+    }
+  }
 };
 
 module.exports = authController;

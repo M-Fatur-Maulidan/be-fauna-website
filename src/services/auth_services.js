@@ -81,6 +81,7 @@ const authService = {
   refreshToken: async (token) => {
     // 1. Cek apakah token masih ada di database (belum di-logout)
     const storedToken = await RefreshToken.findOne({ where: { token: token } });
+
     if (!storedToken) {
       throw new Error("Sesi tidak valid. Silakan login kembali.");
     }
@@ -99,7 +100,7 @@ const authService = {
       const accessTokenPayload = {
         id: user.id,
         nama: user.nama,
-        role: roles[0].nama,
+        role: roles.nama,
       };
 
       const newAccessToken = jwt.sign(
@@ -113,7 +114,7 @@ const authService = {
       return { accessToken: newAccessToken };
     } catch (err) {
       await RefreshToken.destroy({ where: { token: token } });
-      throw new Error("Refresh token tidak valid atau sudah kedaluwarsa.");
+      throw new Error("Refresh token tidak valid atau sudah kedaluwarsa." + err.message);
     }
   },
 

@@ -15,4 +15,7 @@ router.post("/login", authController.login);
 // POST /register -> Memproses registrasi pengguna baru
 router.post("/register", authController.register);
 
+// POST /refresh-token -> Memproses refresh token
+router.post("/refresh-token", authController.refreshToken);
+
 module.exports = router;
