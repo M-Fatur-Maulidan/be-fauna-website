@@ -57,7 +57,7 @@ const Invoice = sequelize.define(
       allowNull: true,
     },
     secret_code: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     trx_id: {
@@ -73,15 +73,7 @@ const Invoice = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    },
-    created_by: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    updated_by: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
+    }
     // Kolom created_at dan updated_at akan ditangani secara otomatis oleh Sequelize
     // karena opsi timestamps di bawah diatur ke true.
   },

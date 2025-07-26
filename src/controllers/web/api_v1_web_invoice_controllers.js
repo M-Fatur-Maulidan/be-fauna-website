@@ -1,17 +1,16 @@
-const express = require("express");
-
 const CryptoJS = require('crypto-js');
 const fetch = require('node-fetch');
 
 const invoiceService = require('../../services/web/web_invoice_services');
 
+const moment = require('moment-timezone');
+
 const createInvoice = async (req, res, next) => {
     try {
       req.body.nominal = 10000;
-      req.body.channel = req.body.payment_method;
-      req.body.user_id = req.auth.sub;
+      // req.body.user_id = req.auth.sub;
 
-      const data = await invoiceService.createInvoice(req.body, cart);
+      const data = await invoiceService.createInvoice(req.body);
 
       const apikey = process.env.API_KEY_IPAYMU;
       const va = process.env.VA_IPAYMU;
@@ -25,8 +24,8 @@ const createInvoice = async (req, res, next) => {
         nama = req.body.nama.trim();
       }
 
-      if (req.body.whatsapp) {
-        phone = req.body.whatsapp.trim();
+      if (req.body.phone) {
+        phone = req.body.phone.trim();
       }
 
       if (req.body.email) {
@@ -37,14 +36,14 @@ const createInvoice = async (req, res, next) => {
         name: nama,
         phone,
         email,
-        amount: total + 5000,
-        notifyUrl: `${process.env.APP_URL}/api/v1/web/invoice/payment/notify`, // your callback url
+        amount: 10000 + 5000,
+        notifyUrl: `${process.env.APP_URL}/api/v1/web/invoices/payment/notify`,
         referenceId: data.secret_code, // your reference id or transaction id
         paymentMethod: 'va',
-        paymentChannel: req.body.payment_method,
+        paymentChannel: req.body.channel,
         expired: '1',
         expiredType: 'hours',
-      };
+      }
 
       // generate signature
       const bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
@@ -64,7 +63,7 @@ const createInvoice = async (req, res, next) => {
         },
         body: JSON.stringify(body),
       });
-
+      
       const respBody = await response.json();
 
       if (respBody && respBody.Status == 200) {
@@ -81,7 +80,7 @@ const createInvoice = async (req, res, next) => {
             trx_id: respBody.Data.TransactionId,
             user_id: data.user_id,
           },
-          req.auth.sub
+          1 //req.auth.sub
         );
 
         respBody.url_payment =
@@ -118,19 +117,20 @@ const createInvoice = async (req, res, next) => {
         },
       });
     } catch (error) {
-      return res.status(error.status).json({ message: error.message });
+      return res.json({ message: error.message });
     }
 }
 
-const paymentNotify = async (req, res, next) => {
+const paymentNotify = async (req, res) => {
     try {
+        req.body.created_at = new Date();
         req.body.original_data = JSON.stringify(req.body);
 
-        invoice = await invoiceService.updateInvoice(req.body);
+        await invoiceService.updateInvoice(req.body);
 
-        return res.json({ message: 'Payment notification received' });
+        return res.json({ status_code: 1, message: 'success' });
     } catch (error) {
-        res.status(error.status).json({ message: error.message });
+        return res.status(error.status).json({ message: error.message });
     }
 }
 
