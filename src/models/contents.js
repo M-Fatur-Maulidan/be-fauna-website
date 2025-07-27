@@ -12,7 +12,11 @@ const Content = sequelize.define(
       autoIncrement: true,
       allowNull: false,
     },
-    nama: {
+    nama_umum: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
+    nama_ilmiah: {
       type: DataTypes.STRING(200),
       allowNull: true,
     },
@@ -24,15 +28,27 @@ const Content = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    jenis_fauna: {
+    habitat: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
+    makanan: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
+    rentang_hidup: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    jenis_fauna_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    is_verified: {
-      type: DataTypes.TINYINT,
-      allowNull: true,
-      comment: "0: Pending, 1: Verified, 2: Rejected",
-    },
+    // is_verified: {
+    //   type: DataTypes.TINYINT,
+    //   allowNull: true,
+    //   comment: "0: Pending, 1: Verified, 2: Rejected",
+    // },
     created_by: {
       type: DataTypes.INTEGER,
       allowNull: true,

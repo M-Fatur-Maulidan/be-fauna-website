@@ -84,10 +84,14 @@ const contentService = {
 
       if (!content) throw new Error("Content not found");
 
-      content.nama = contentData.nama;
+      content.nama_umum = contentData.nama_umum;
+      content.nama_ilmiah = contentData.nama_ilmiah;
       content.deskripsi = contentData.deskripsi;
       if (contentData.gambar) content.gambar = contentData.gambar;
-      content.jenis_fauna = contentData.jenis_fauna;
+      content.habitat = contentData.habitat;
+      content.makanan = contentData.makanan;
+      content.rentang_hidup = contentData.rentang_hidup;
+      content.jenis_fauna_id = contentData.jenis_fauna_id;
       content.is_verified = 0;
       content.updated_by = contentData.updated_by;
 
@@ -106,7 +110,7 @@ const contentService = {
   /**
    * Menghapus konten (Soft Delete).
    */
-  deleteContent: async (id) => {
+  deleteContent: async (id, userId) => {
     try {
       const content = await Content.findByPk(id);
 
@@ -116,6 +120,9 @@ const contentService = {
 
       // Soft delete dengan mengubah data_status
       content.data_status = 0;
+      content.updated_by = userId;
+      content.updated_at = new Date();
+
       await content.save();
 
       return content;

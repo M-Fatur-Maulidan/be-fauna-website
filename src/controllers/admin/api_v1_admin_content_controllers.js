@@ -84,6 +84,8 @@ const contentController = {
     try {
       const contentData = req.body;
 
+      contentData.created_by = req.auth.id;
+
       // Menambahkan nama file gambar dari middleware upload
       if (req.file) {
         contentData.gambar = req.file.filename;
@@ -121,10 +123,9 @@ const contentController = {
       const { id } = req.params;
       const contentData = req.body;
 
-      if (req.file) contentData.gambar = req.file.filename;
+      contentData.updated_by = req.auth.id;
 
-      // Anda bisa menambahkan 'updated_by' dari data user yang login
-      // contentData.updated_by = req.user.id;
+      if (req.file) contentData.gambar = req.file.filename;
 
       const updatedContent = await contentService.updateContent(
         id,
@@ -156,7 +157,9 @@ const contentController = {
   deleteContent: async (req, res) => {
     try {
       const { id } = req.params;
-      await contentService.deleteContent(id);
+      const userId = req.auth.id;
+      
+      await contentService.deleteContent(id, userId);
 
       res.status(200).json({
         status: "success",
