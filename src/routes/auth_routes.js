@@ -21,4 +21,7 @@ router.post("/refresh-token", authController.refreshToken);
 // GET /check-token -> Memeriksa validitas token
 router.post("/check-token", authController.tokenExpired);
 
+// GET /logout -> Memproses logout
+router.post("/logout", authController.logout);
+
 module.exports = router;

@@ -100,11 +100,11 @@ const authController = {
         });
       }
 
-      await authService.logout(token);
+      const result = await authService.logout(token);
 
       res.status(200).json({
         status: "success",
-        message: "Logout berhasil.",
+        message: result.message,
       });
     } catch (error) {
       res.status(500).json({

@@ -123,9 +123,11 @@ const authService = {
    */
   logout: async (token) => {
     const result = await RefreshToken.destroy({ where: { token: token } });
-    if (result === 0) {
-      console.log("Logout attempt for a token that does not exist.");
+
+    if (result == 0) {
+      return { message: "Token tidak ditemukan atau sudah dihapus." };
     }
+    
     return { message: "Logout berhasil." };
   },
 
