@@ -10,6 +10,8 @@ const contentController = {
    */
   getAllContents: async (req, res) => {
     try {
+      let index = 1;
+
       const page = parseInt(req.query.page) || 1;
       const itemPerPage = parseInt(req.query.item_per_page) || 10;
 
@@ -18,9 +20,10 @@ const contentController = {
 
       // Menambahkan URL lengkap untuk gambar
       contents.forEach((content) => {
+        content.no = itemPerPage * (page - 1) + index++;
         if (content.gambar) {
           content.gambar_url =
-            process.env.APP_URL + "/images/contents/" + content.gambar;
+            process.env.APP_URL + "/image-contents/" + content.gambar;
         } else {
           content.gambar_url = null;
         }
@@ -58,7 +61,7 @@ const contentController = {
 
       if (content.gambar) {
         content.gambar_url =
-          process.env.APP_URL + "/images/contents/" + content.gambar;
+          process.env.APP_URL + "/image-contents/" + content.gambar;
       } else {
         content.gambar_url = null;
       }
@@ -89,14 +92,6 @@ const contentController = {
       // Menambahkan nama file gambar dari middleware upload
       if (req.file) {
         contentData.gambar = req.file.filename;
-      }
-
-      // Validasi sederhana
-      if (!contentData.nama || !contentData.deskripsi) {
-        return res.status(400).json({
-          status: "fail",
-          message: "Name and description are required",
-        });
       }
 
       const newContent = await contentService.createContent(contentData);
@@ -138,7 +133,7 @@ const contentController = {
         data: updatedContent,
       });
     } catch (error) {
-      if (error.message === "Content not found") {
+      if (error.message == "Content not found") {
         return res
           .status(404)
           .json({ status: "error", message: error.message });

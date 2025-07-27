@@ -100,7 +100,7 @@ const authService = {
       const accessTokenPayload = {
         id: user.id,
         nama: user.nama,
-        role: roles != null ? roles.nama : "user",
+        roles: roles != null ? roles.nama : "user",
       };
 
       const newAccessToken = jwt.sign(
