@@ -18,4 +18,7 @@ router.post("/register", authController.register);
 // POST /refresh-token -> Memproses refresh token
 router.post("/refresh-token", authController.refreshToken);
 
+// GET /check-token -> Memeriksa validitas token
+router.post("/check-token", authController.tokenExpired);
+
 module.exports = router;

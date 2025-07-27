@@ -9,9 +9,12 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./src/routes/auth_routes");
 
 // User Routes
+// Admin
 const userRoutes = require("./src/routes/admin/users/admin_user_routes");
 const roleRoutes = require("./src/routes/admin/users/admin_role_routes");
 const userRoleRoutes = require("./src/routes/admin/users/admin_user_role_routes");
+// Web
+const webUserRoutes = require("./src/routes/web/users/web_user_routes");
 
 // Content Routes
 const contentRoutes = require("./src/routes/admin/admin_content_routes");
@@ -50,6 +53,9 @@ app.use(apiv1Admin + "/users", userRoleRoutes);
 
 // Route untuk Contents
 app.use(apiv1Admin + "/contents", contentRoutes);
+
+// Route untuk Web Users
+app.use(apiv1Web + "/users", webUserRoutes);
 
 // Route untuk Contacts
 app.use(apiv1Web + "/contacts", contactRoutes);

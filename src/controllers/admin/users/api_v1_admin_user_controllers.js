@@ -46,7 +46,7 @@ const userController = {
    */
   getUserById: async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = req.auth.id;
       const user = await userService.getUserById(id);
 
       if (!user) {

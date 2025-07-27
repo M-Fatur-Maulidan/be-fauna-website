@@ -100,7 +100,7 @@ const authService = {
       const accessTokenPayload = {
         id: user.id,
         nama: user.nama,
-        role: roles.nama,
+        role: roles != null ? roles.nama : "user",
       };
 
       const newAccessToken = jwt.sign(
@@ -111,9 +111,9 @@ const authService = {
         }
       );
 
-      return { accessToken: newAccessToken };
+      return { accessToken: newAccessToken, refreshToken: token, user: accessTokenPayload };
     } catch (err) {
-      await RefreshToken.destroy({ where: { token: token } });
+      // await RefreshToken.destroy({ where: { token: token } });
       throw new Error("Refresh token tidak valid atau sudah kedaluwarsa." + err.message);
     }
   },
@@ -163,6 +163,18 @@ const authService = {
       throw error;
     }
   },
+  isTokenExpired: async (token) => {
+    try {
+      jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+      return false; // Token masih valid
+    } catch (error) {
+      if (error.name == "TokenExpiredError") {
+        return true; // Token sudah kedaluwarsa
+      }
+      throw error; // Error lain, misalnya token tidak valid
+    }
+  }
 };
 
 module.exports = authService;
