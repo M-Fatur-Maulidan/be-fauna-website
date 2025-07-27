@@ -44,6 +44,10 @@ const Content = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    status_konservasi: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
     // is_verified: {
     //   type: DataTypes.TINYINT,
     //   allowNull: true,

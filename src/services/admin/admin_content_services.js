@@ -16,11 +16,8 @@ const contentService = {
     const contents = await knex("contents")
       .select(
         "id",
-        "nama",
-        "deskripsi",
-        "gambar",
-        "jenis_fauna",
-        "is_verified",
+        "nama_umum",
+        "nama_ilmiah",
         "created_at"
       )
       .where("data_status", 1)
@@ -47,11 +44,15 @@ const contentService = {
     const content = await knex("contents")
       .select(
         "id",
-        "nama",
+        "nama_umum",
+        "nama_ilmiah",
         "deskripsi",
+        "habitat",
+        "makanan",
+        "rentang_hidup",
         "gambar",
-        "jenis_fauna",
-        "is_verified",
+        "status_konservasi",
+        "jenis_fauna_id",
         "created_at",
         "updated_at"
       )
@@ -92,8 +93,10 @@ const contentService = {
       content.makanan = contentData.makanan;
       content.rentang_hidup = contentData.rentang_hidup;
       content.jenis_fauna_id = contentData.jenis_fauna_id;
+      content.status_konservasi = contentData.status_konservasi;
       content.is_verified = 0;
       content.updated_by = contentData.updated_by;
+      content.updated_at = new Date();
 
       // Update data
       await content.update(contentData, { transaction });
