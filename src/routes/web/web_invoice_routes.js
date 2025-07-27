@@ -14,4 +14,6 @@ router.post("/", invoiceController.createInvoice);
 
 router.post("/payment/notify", invoiceController.paymentNotify);
 
+router.post('/payment/method-list', invoiceController.paymentMethodList);
+
 module.exports = router;

@@ -63,7 +63,7 @@ const createInvoice = async (req, res, next) => {
         },
         body: JSON.stringify(body),
       });
-      
+
       const respBody = await response.json();
 
       if (respBody && respBody.Status == 200) {
@@ -134,7 +134,49 @@ const paymentNotify = async (req, res) => {
     }
 }
 
+const paymentMethodList = async (req, res) => {
+  try {
+    let virtualAccount = {};
+
+    const apikey = process.env.API_KEY_IPAYMU;
+    const va = process.env.VA_IPAYMU;
+    const url = process.env.URL_BASE_IPAYMU + 'v2/payment-method-list';
+
+    const body = {};
+
+    const bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
+    const stringtosign = 'POST:' + va + ':' + bodyEncrypt + ':' + apikey;
+    const signature = CryptoJS.enc.Hex.stringify(
+      CryptoJS.HmacSHA256(stringtosign, apikey)
+    );
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        va,
+        signature,
+        timestamp: moment().unix(),
+      },
+      body: JSON.stringify(body),
+    });
+
+    const respBody = await response.json();
+
+    respBody.Data.forEach((item) => {
+        if (item.Code == 'va') {
+          virtualAccount = item;
+        }
+      });
+
+    return res.json({ result: virtualAccount });
+  } catch (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
+}
+
 module.exports = {
     createInvoice,
-    paymentNotify
+    paymentNotify,
+    paymentMethodList
 };
