@@ -5,6 +5,7 @@ const knex = require('../../config/database_knex');
 
 const InvoiceModel = require('../../models/invoices');
 const UserModel = require('../../models/users/users');
+const UserRoleModel = require('../../models/users/user_roles');
 
 const invoiceService = {
     createInvoice: async (data) => {
@@ -66,6 +67,17 @@ const invoiceService = {
             expired_at: options.expired_at,
             trx_id: options.trx_id,
           });
+
+          const user = await UserModel.findByPk(data.user_id);
+
+          if (user) {
+            const userRole = new UserRoleModel();
+
+            userRole.user_id = user.id;
+            userRole.role_id = 2;
+
+            await userRole.save({transaction});
+          }
         } else if (parseInt(options.status_code) == -2) {
           data.status = 6;
         }
@@ -76,6 +88,7 @@ const invoiceService = {
         return data;
       } catch (error) {
         await transaction.rollback();
+        console.error("GAGAL MEMBUAT USER ROLE:", error); 
         throw new Error('Failed to update data: ' + error.message);
       }
     },

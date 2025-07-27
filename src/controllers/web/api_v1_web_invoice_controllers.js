@@ -8,7 +8,7 @@ const moment = require('moment-timezone');
 const createInvoice = async (req, res, next) => {
     try {
       req.body.nominal = 10000;
-      // req.body.user_id = req.auth.sub;
+      req.body.user_id = req.auth.id;
 
       const data = await invoiceService.createInvoice(req.body);
 
@@ -80,7 +80,7 @@ const createInvoice = async (req, res, next) => {
             trx_id: respBody.Data.TransactionId,
             user_id: data.user_id,
           },
-          1 //req.auth.sub
+          req.auth.id
         );
 
         respBody.url_payment =

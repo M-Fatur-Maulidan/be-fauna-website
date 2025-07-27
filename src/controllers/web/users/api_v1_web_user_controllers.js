@@ -10,7 +10,6 @@ const userController = {
    */
   getUserById: async (req, res) => {
     try {
-      console.log("Fetching user with ID:", req.params.id);
       const { id } = req.params;
       const user = await userService.getUserById(id);
 

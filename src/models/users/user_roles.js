@@ -30,4 +30,6 @@ const UserRoles = sequelize.define(
   }
 );
 
+UserRoles.removeAttribute("id");
+
 module.exports = UserRoles;
