@@ -17,7 +17,7 @@ const { expressjwt } = require("express-jwt");
  */
 
 // GET / -> Mendapatkan semua konten
-router.get("/", contentController.getAllContents);
+router.get("/", expressjwt({ secret: process.env.JWT_SECRET_KEY, algorithms: ["HS256"] }), contentController.getAllContents);
 
 // GET /:id -> Mendapatkan konten berdasarkan ID
 router.get("/:id", contentController.getContentById);

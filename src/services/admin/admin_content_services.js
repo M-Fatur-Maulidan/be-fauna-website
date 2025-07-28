@@ -12,8 +12,8 @@ const contentService = {
   /**
    * Mengambil daftar konten dengan paginasi.
    */
-  getAllContents: async (page, itemPerPage) => {
-    const contents = await knex("contents")
+  getAllContents: async (page, itemPerPage, userId) => {
+    const contents = knex("contents")
       .select(
         "id",
         "nama_umum",
@@ -23,17 +23,27 @@ const contentService = {
       .where("data_status", 1)
       .limit(itemPerPage)
       .offset((page - 1) * itemPerPage);
+
+    if (userId) {
+      contents.where("created_by", userId);
+    }
+
     return contents;
   },
 
   /**
    * Menghitung total konten yang aktif.
    */
-  getTotalContents: async () => {
-    const result = await knex("contents")
+  getTotalContents: async (userId) => {
+    const result = knex("contents")
       .count({ count: "id" })
       .where("data_status", 1)
       .first();
+
+    if (userId) {
+      result.where("created_by", userId);
+    }
+    
     return result.count;
   },
 

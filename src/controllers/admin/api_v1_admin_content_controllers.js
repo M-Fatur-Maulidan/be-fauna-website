@@ -11,12 +11,17 @@ const contentController = {
   getAllContents: async (req, res) => {
     try {
       let index = 1;
+      let userId = req.auth.id;
+
+      if (userId == 1) {
+        userId = null;
+      }
 
       const page = parseInt(req.query.page) || 1;
       const itemPerPage = parseInt(req.query.item_per_page) || 10;
 
-      const contents = await contentService.getAllContents(page, itemPerPage);
-      const totalContents = await contentService.getTotalContents();
+      const contents = await contentService.getAllContents(page, itemPerPage, userId);
+      const totalContents = await contentService.getTotalContents(userId);
 
       // Menambahkan URL lengkap untuk gambar
       contents.forEach((content) => {
