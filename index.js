@@ -13,6 +13,7 @@ const authRoutes = require("./src/routes/auth_routes");
 const userRoutes = require("./src/routes/admin/users/admin_user_routes");
 const roleRoutes = require("./src/routes/admin/users/admin_role_routes");
 const userRoleRoutes = require("./src/routes/admin/users/admin_user_role_routes");
+
 // Web
 const webUserRoutes = require("./src/routes/web/users/web_user_routes");
 
@@ -22,10 +23,15 @@ const contentRoutes = require("./src/routes/admin/admin_content_routes");
 // Contact Routes
 // Web
 const contactRoutes = require("./src/routes/web/web_contact_routes");
+// Admin
+const contactAdminRoutes = require("./src/routes/admin/admin_contact_routes");
 
 // Invoice Routes
 // Web
 const invoiceRoutes = require("./src/routes/web/web_invoice_routes");
+
+// Dashboard Routes
+const dashboardRoutes = require("./src/routes/admin/admin_dashboard_routes");
 
 // --> End Import Routes
 
@@ -46,13 +52,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Route untuk Autentikasi
 app.use(apiv1 + "/auth", authRoutes);
 
-// Route untuk Users
+// Route untuk Admin Users
 app.use(apiv1Admin + "/users", userRoutes);
 app.use(apiv1Admin + "/users", roleRoutes);
 app.use(apiv1Admin + "/users", userRoleRoutes);
 
-// Route untuk Contents
+// Route untuk Admin Contents
 app.use(apiv1Admin + "/contents", contentRoutes);
+
+// Route untuk Admin Contacts
+app.use(apiv1Admin + "/contacts", contactAdminRoutes);
+
+// Route untuk Admin Dashboard
+app.use(apiv1Admin + "/dashboard", dashboardRoutes);
 
 // Route untuk Web Users
 app.use(apiv1Web + "/users", webUserRoutes);
