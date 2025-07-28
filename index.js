@@ -18,6 +18,9 @@ const userRoleRoutes = require("./src/routes/admin/users/admin_user_role_routes"
 const webUserRoutes = require("./src/routes/web/users/web_user_routes");
 
 // Content Routes
+// Web
+const webContentRoutes = require("./src/routes/web/web_content_routes");
+// Admin
 const contentRoutes = require("./src/routes/admin/admin_content_routes");
 
 // Contact Routes
@@ -68,6 +71,9 @@ app.use(apiv1Admin + "/dashboard", dashboardRoutes);
 
 // Route untuk Web Users
 app.use(apiv1Web + "/users", webUserRoutes);
+
+// Route untuk Web Contents
+app.use(apiv1Web + "/contents", webContentRoutes);
 
 // Route untuk Contacts
 app.use(apiv1Web + "/contacts", contactRoutes);
