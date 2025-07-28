@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 
-const userController = require("../../../controllers/admin/users/api_v1_admin_user_controllers");
+const userController = require("../../../controllers/web/users/api_v1_web_user_controllers");
 
 const { expressjwt } = require("express-jwt");
 
